@@ -21,9 +21,6 @@ public class BeneficiarioORM {
     @Column
     private String nombre;
 
-    @Column
-    private String email;
-
     @JoinColumn(name = "id_afiliado", unique = true)
     @OneToOne(cascade = CascadeType.ALL)
     private AfiliadoORM afliliadoORM;

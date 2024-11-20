@@ -21,13 +21,4 @@ public class AfiliadoORM {
     @Column
     private String nombre;
 
-    @Column
-    private Integer edad;
-
-    @Column
-    private String email;
-
-    @Column
-    private String genero;
-
 }
