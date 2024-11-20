@@ -21,4 +21,6 @@ public class AfiliadoORM {
     @Column
     private String nombre;
 
+    @Column
+    private String email;
 }
