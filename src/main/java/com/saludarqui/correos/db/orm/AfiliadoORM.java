@@ -22,5 +22,12 @@ public class AfiliadoORM {
     private String nombre;
 
     @Column
+    private Integer edad;
+
+    @Column
     private String email;
+
+    @Column
+    private String genero;
+
 }
