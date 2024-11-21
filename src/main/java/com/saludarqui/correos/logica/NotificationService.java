@@ -1,8 +1,10 @@
 package com.saludarqui.correos.logica;
 
 import com.saludarqui.correos.db.jpa.BeneficiarioJPA;
+import com.saludarqui.correos.db.jpa.ControlJPA;
 import com.saludarqui.correos.db.orm.AfiliadoORM;
 import com.saludarqui.correos.db.orm.BeneficiarioORM;
+import com.saludarqui.correos.db.orm.ControlORM;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,6 +16,9 @@ import java.util.logging.Logger;
 @Slf4j
 @Service
 public class NotificationService {
+
+    @Autowired
+    private ControlJPA controlJPA;
 
     @Autowired
     private JavaMailSender emailSender;
@@ -39,6 +44,8 @@ public class NotificationService {
 
             sendEmail(email, subject, message);
             log.info("Correo enviado exitosamente a: {}", email);
+
+            guardarControl(afiliado.getIdAfiliado(), idBeneficiario, afiliado.getNombre(), beneficiario.getNombre());
         } else {
             log.warn("No se encontró un afiliado asociado para el beneficiario con ID: {}", idBeneficiario);
         }
@@ -54,6 +61,21 @@ public class NotificationService {
             log.info("Correo enviado a: {}", to);
         } catch (Exception e) {
             log.error("Error al enviar el correo: {}", e.getMessage());
+        }
+    }
+
+    private void guardarControl(Long idAfiliado, Long idBeneficiario, String nombreAfiliado, String nombreBeneficiario) {
+        try {
+            ControlORM nuevoControl = new ControlORM();
+            nuevoControl.setIdAfiliado(idAfiliado);
+            nuevoControl.setIdBeneficiario(idBeneficiario);
+            nuevoControl.setNombreAfiliado(nombreAfiliado);
+            nuevoControl.setNombreBeneficiario(nombreBeneficiario);
+
+            controlJPA.save(nuevoControl);
+            log.info("Control guardado correctamente: {}", idAfiliado);
+        } catch (Exception e) {
+            log.error("Error al guardar el control: {}", e.getMessage());
         }
     }
 }
