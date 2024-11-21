@@ -38,8 +38,9 @@ public class NotificationService {
             String email = afiliado.getEmail();
             String subject = "Notificación de Afiliado";
             String message = "Hola " + afiliado.getNombre() + ",\n\n" +
-                    "Su ID de afiliado es: " + afiliado.getIdAfiliado() + ".\n\n" + "Se a registrado un beneficiario con codigo:"
-                    + beneficiario.getIdBeneficiario() + "y nombre"+ beneficiario.getNombre() + ",\n\n"
+                    "Su ID de afiliado es: " + afiliado.getIdAfiliado() + ".\n\n"
+                    + "Se a registrado un beneficiario con codigo: " + ".\n\n" + beneficiario.getIdBeneficiario() + ".\n\n"
+                    + "y nombre "+ beneficiario.getNombre() + ",\n\n"
                     + "Gracias por ser parte de nuestro sistema.";
 
             sendEmail(email, subject, message);
