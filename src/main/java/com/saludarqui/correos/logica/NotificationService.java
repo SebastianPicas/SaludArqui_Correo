@@ -3,6 +3,7 @@ package com.saludarqui.correos.logica;
 import com.saludarqui.correos.db.jpa.BeneficiarioJPA;
 import com.saludarqui.correos.db.orm.AfiliadoORM;
 import com.saludarqui.correos.db.orm.BeneficiarioORM;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
 
+@Slf4j
 @Service
 public class NotificationService {
 
@@ -31,13 +33,14 @@ public class NotificationService {
             String email = afiliado.getEmail();
             String subject = "Notificación de Afiliado";
             String message = "Hola " + afiliado.getNombre() + ",\n\n" +
-                    "Su ID de afiliado es: " + afiliado.getIdAfiliado() + ".\n\n" +
-                    "Gracias por ser parte de nuestro sistema.";
+                    "Su ID de afiliado es: " + afiliado.getIdAfiliado() + ".\n\n" + "Se a registrado un beneficiario con codigo:"
+                    + beneficiario.getIdBeneficiario() + "y nombre"+ beneficiario.getNombre() + ",\n\n"
+                    + "Gracias por ser parte de nuestro sistema.";
 
             sendEmail(email, subject, message);
-            logger.info("Correo enviado exitosamente a: " + email);
+            log.info("Correo enviado exitosamente a: {}", email);
         } else {
-            logger.warning("No se encontró un afiliado asociado para el beneficiario con ID: " + idBeneficiario);
+            log.warn("No se encontró un afiliado asociado para el beneficiario con ID: {}", idBeneficiario);
         }
     }
 
@@ -48,9 +51,9 @@ public class NotificationService {
             message.setSubject(subject);
             message.setText(text);
             emailSender.send(message);
-            logger.info("Correo enviado a: " + to);
+            log.info("Correo enviado a: {}", to);
         } catch (Exception e) {
-            logger.severe("Error al enviar el correo: " + e.getMessage());
+            log.error("Error al enviar el correo: {}", e.getMessage());
         }
     }
 }
